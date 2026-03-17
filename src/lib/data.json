@@ -1,0 +1,132 @@
+{
+  "hero": {
+    "name": "SHUBHAM DUBEY",
+    "subtitle": "Software Developer",
+    "email": "shubham.dubey@gmail.com",
+    "about": "I am a backend software developer based in Kolkata, bridging a background in mechanical engineering with a passion for architecting scalable, production-ready systems. Specializing in Node.js, TypeScript, PostgreSQL, and AWS, my technical focus lies in building robust enterprise APIs and microservices using modern frameworks like NestJS. Beyond the terminal, my daily rhythm is grounded by a strict 6 AM yoga routine, alongside deep interests in personal finance, continuous growth, and astrology.",
+    "motivation": [
+      "My career is currently rooted in advanced backend development, dedicating my energy to mastering modern frameworks like NestJS and Fastify.",
+      "After wrapping up my tenure at Infosys, I've been focused on intense upskilling, building scalable domain projects (like healthcare and retail APIs) to push my technical boundaries.",
+      "Beyond code, my long-term vision encompasses continuous personal development, creating automated income streams, and spiritual growth."
+    ],
+    "motivationImg": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800"
+  },
+  "skills": [
+    {
+      "category": "LANGUAGES",
+      "items": ["JavaScript", "TypeScript", "SQL"]
+    },
+    {
+      "category": "FRONTEND",
+      "items": ["React.js", "Next.js"]
+    },
+    {
+      "category": "BACKEND",
+      "items": ["Node.js", "NestJS", "Express.js", "Fastify", "RESTful APIs"]
+    },
+    {
+      "category": "DATABASES & MESSAGING",
+      "items": ["PostgreSQL", "MongoDB", "Redis", "Kafka"]
+    },
+    {
+      "category": "DEVOPS & CLOUD",
+      "items": ["AWS", "Docker", "Kubernetes", "CI/CD", "Linux"]
+    },
+    {
+      "category": "AI & LLMs",
+      "items": ["Prompt Engineering", "LangChain", "OpenAI API", "Custom LLMs"]
+    },
+    {
+      "category": "TOOLS & TESTING",
+      "items": ["Git", "GitHub", "Jest", "Postman", "VS Code"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "chat-system",
+      "index": "[ 01 / 03 ]",
+      "title": "SCALABLE REAL-TIME CHAT SYSTEM",
+      "subtitle": "Backend Architecture / Distributed Systems",
+      "thumbnail": "https://cdn.dribbble.com/userupload/42881391/file/original-9e8225a3d731fbb1e91f602f30374ade.png?resize=752x&vertical=center",
+      "heroImg": "https://cdn.dribbble.com/userupload/42881391/file/original-9e8225a3d731fbb1e91f602f30374ade.png?resize=752x&vertical=center",
+      "tools": ["React 18", "Node.js 20", "WebSocket", "Socket.io", "Redis 7", "Apache Kafka", "MongoDB Atlas", "Docker / K8s", "AWS EC2 / ALB"],
+      "roles": "Backend Developer / Systems Architect",
+      "metrics": ["5M+ Concurrent Users", "120k messages / sec", "65ms Average Latency"],
+      "overview": "A distributed real-time messaging platform capable of handling extreme scale. The system ensures sub-100ms delivery latency using persistent WebSocket connections and an event-driven architecture.<br><br>The system supports real-time messaging, offline delivery, read receipts, typing indicators, and horizontal scaling across multiple server clusters.",
+      "problem": "Polling-based chat systems introduce significant latency and unnecessary server load. This system replaces HTTP polling with persistent WebSocket connections enabling real-time communication while reducing server overhead by approximately <strong>70%</strong>.",
+      "architecture": "Users\n  ↓\nGlobal CDN (Cloudflare)\n  ↓\nAWS Application Load Balancer\n  ↓\nWebSocket Gateway Cluster\n  ↓\nAuthentication Service\n  ↓\nKafka Message Broker\n  ↓\nChat Service Cluster\n  ↓\nRedis Cluster (Presence + Cache)\n  ↓\nMongoDB Sharded Cluster",
+      "flow": "1. User sends message via WebSocket\n2. Gateway server validates JWT token\n3. Message pushed to Kafka topic\n4. Chat service consumes message event\n5. Message stored in MongoDB\n6. Redis checks recipient online status",
+      "schema": "Users Collection\n- userId (indexed)\n- username\n- lastSeen\n\nMessages Collection\n- messageId\n- senderId (indexed)\n- receiverId (indexed)\n- roomId\n- message\n- timestamp (indexed)",
+      "lld": [
+        { "title": "Authentication Service", "desc": "JWT-based login system ensuring secure API access. Tokens are verified at the Gateway cluster before upgrading the HTTP connection to a WebSocket protocol." },
+        { "title": "Chat Service", "desc": "The core business logic layer. Handles message creation, delivery routing, database persistence, and retry mechanisms if a delivery acknowledgment fails." },
+        { "title": "Presence Service", "desc": "Tracks online/offline users dynamically. Utilizes Redis sets and WebSocket heartbeats (ping/pong) to maintain an accurate state of user availability." }
+      ],
+      "scaling": ["Horizontal scaling of WebSocket servers", "Redis Pub/Sub for cross-server message delivery", "Kafka partitions for high throughput streaming", "Auto scaling using Kubernetes HPA"],
+      "tags": ["SystemDesign", "Realtime", "WebSockets", "DistributedSystems"],
+      "video": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    },
+    {
+      "id": "retail-domain",
+      "index": "[ 02 / 03 ]",
+      "title": "RETAIL DOMAIN PROJECT",
+      "subtitle": "Backend API / Inventory Management",
+      "thumbnail": "https://cdn.dribbble.com/userupload/46207939/file/17c5e135ccc0b1621fa31306546f1cb6.png?resize=752x&vertical=center",
+      "heroImg": "https://cdn.dribbble.com/userupload/46207939/file/17c5e135ccc0b1621fa31306546f1cb6.png?resize=752x&vertical=center",
+      "tools": ["TypeScript", "NestJS", "PostgreSQL", "AWS"],
+      "roles": "Backend Developer",
+      "metrics": ["High Throughput API", "ACID Transactions", "Secure Payments"],
+      "overview": "A high-performance retail backend system utilizing modern Node.js frameworks to ensure rapid response times and reliable transaction processing under load.",
+      "problem": "Handling severe race conditions and database locks during high-traffic inventory checkout events.",
+      "architecture": "Client\n  ↓\nAPI Gateway\n  ↓\nNestJS Microservices\n  ↓\nPostgreSQL & Redis",
+      "flow": "1. Add item to cart\n2. Lock inventory via Redis\n3. Process Payment securely\n4. Commit PostgreSQL transaction",
+      "schema": "Products Collection\nOrders Collection\nUsers Collection\nInventory Collection",
+      "lld": [
+        { "title": "Inventory Lock Service", "desc": "Uses Redis to temporarily lock items for 10 minutes when placed in a cart to prevent overselling." }
+      ],
+      "scaling": ["PostgreSQL Read Replicas", "Caching with Redis", "Stateless Microservices"],
+      "tags": ["Retail", "NestJS", "PostgreSQL", "AWS"],
+      "video": ""
+    },
+    {
+      "id": "healthcare-domain",
+      "index": "[ 03 / 03 ]",
+      "title": "HEALTHCARE DOMAIN PROJECT",
+      "subtitle": "Patient Management System / Appointment Scheduling",
+      "thumbnail": "https://cdn.dribbble.com/userupload/37442911/file/original-536b8effa628cf6c08fa8571965ed20e.jpg?resize=752x&vertical=center",
+      "heroImg": "https://cdn.dribbble.com/userupload/37442911/file/original-536b8effa628cf6c08fa8571965ed20e.jpg?resize=752x&vertical=center",
+      "tools": ["TypeScript", "Fastify", "PostgreSQL", "Docker", "AWS"],
+      "roles": "Backend Developer",
+      "metrics": ["High Availability", "Fault Tolerant System", "Data Consistency"],
+      "overview": "A robust healthcare backend system designed to efficiently handle patient records, appointment scheduling, and communication between healthcare providers.",
+      "problem": "Managing a large number of simultaneous patient appointments and ensuring no double-booking in a distributed system.",
+      "architecture": "Client\n  ↓\nAPI Gateway\n  ↓\nFastify Microservices\n  ↓\nPostgreSQL & Kafka",
+      "flow": "1. Patient schedules an appointment\n2. Lock available time slot\n3. Process patient data securely\n4. Update PostgreSQL records",
+      "schema": "Patients Collection\nAppointments Collection\nDoctors Collection\nHealthcare Providers Collection",
+      "lld": [
+        { "title": "Appointment Scheduling Service", "desc": "Manages appointment creation, booking, and updates to ensure no overlapping timeslots using Redis for caching availability." }
+      ],
+      "scaling": ["PostgreSQL Read Replicas", "Event-Driven Architecture with Kafka", "Containerized Services with Docker"],
+      "tags": ["Healthcare", "Fastify", "PostgreSQL", "Docker"],
+      "video": ""
+    }
+  ],
+  "blogs": [
+    {
+      "id": "node-backend",
+      "title": "Building Scalable Backends with Node.js and TypeScript",
+      "desc": "An exploration into structuring modern enterprise APIs. In this post, I dive deep into architectural patterns, static typing benefits, and how to maintain high performance.",
+      "date": "March 10, 2026",
+      "tags": ["Node.js", "TypeScript", "NestJS"],
+      "content": "<p>When engineering high-performance APIs, the choice of stack and structure plays a critical role in long-term maintainability. Transitioning from plain JavaScript to TypeScript has become the industry standard for a reason: it catches bugs at compile time rather than runtime.</p><h3>Structuring the Application</h3><p>I usually recommend a layered architecture. Separating controllers, services, and data-access layers ensures that your business logic isn't tightly coupled to the Express or Fastify routing mechanism.</p>"
+    },
+    {
+      "id": "postgres-opt",
+      "title": "Mastering PostgreSQL: Indexing and Query Optimization",
+      "desc": "Database bottlenecks are often the silent killers of web application performance. This guide walks through practical strategies for analyzing execution plans.",
+      "date": "February 24, 2026",
+      "tags": ["PostgreSQL", "Database", "Optimization"],
+      "content": "<p>It's easy to spin up a database and start writing queries, but understanding what happens under the hood is what separates a good developer from a great one.</p><h3>Understanding Execution Plans</h3><p>Before adding indexes blindly, use <code>EXPLAIN ANALYZE</code>. This command is your best friend. It shows exactly how PostgreSQL plans to execute your query.</p>"
+    }
+  ]
+}
