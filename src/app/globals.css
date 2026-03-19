@@ -257,3 +257,18 @@ details.proj-accordion p { padding: 0 0 20px 0; color: var(--text-muted); line-h
 .next-page-link:hover .arrow-icon {
   transform: translateX(8px);
 }
+:root {
+  --bg-color: #161616;
+  --text-main: #f0f0f0;
+  --text-muted: #888888;
+  --border-color: #333;
+  --input-bg: #1e1e1e;
+}
+
+[data-theme="light"] {
+  --bg-color: #f5f4ef;
+  --text-main: #121212;
+  --text-muted: #666666;
+  --border-color: #cccccc;
+  --input-bg: #ebeae3;
+}
