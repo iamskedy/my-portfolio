@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// Admin Schema - for Phase 2 authentication
+// Admin Schema
 const AdminSchema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
@@ -12,18 +12,18 @@ const AdminSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// About Schema - Aligned with the "About Section" HTML form
+// About Schema - Updated to match data.json
 const AboutSchema = new mongoose.Schema(
   {
-    sub_title: { type: String, required: true },
+    subtitle: { type: String, required: true }, // Removed underscore
     email: { type: String, required: true },
     about_me: { type: String, required: true },
-    motivation: { type: String, required: true },
+    motivation: [{ type: String }], // Changed to Array of Strings
   },
   { timestamps: true },
 );
 
-// Skill Schema - Aligned with the "Skills Section" HTML form
+// Skill Schema
 const SkillSchema = new mongoose.Schema(
   {
     category: { type: String, required: true },
@@ -32,32 +32,34 @@ const SkillSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// Project Schema - Aligned with the "Works Section" HTML form
+// Project Schema - Updated to match data.json and Admin UI
 const ProjectSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     subtitle: { type: String, required: true },
-    tools_used: [{ type: String }], // Array for comma-separated tools
-    roles: [{ type: String }], // Array for comma-separated roles
-    thumbnail_url: { type: String },
-    summary: { type: String, required: true },
+    tools: [{ type: String }], // Renamed from tools_used
+    thumbnail: { type: String }, // Renamed from thumbnail_url
+    overview: { type: String, required: true }, // Renamed from summary
+    content: { type: String }, // Added to support full project details
+    index: { type: String }, // Added to support project numbering (01, 02)
   },
   { timestamps: true },
 );
-
-// Blog Schema - Aligned with the "Blogs Section" HTML form
+// Blog Schema - Updated to match Admin UI and DB Indexes
 const BlogSchema = new mongoose.Schema(
   {
+    slug: { type: String, required: true, unique: true }, // <--- ADD THIS LINE
     title: { type: String, required: true },
-    tags: [{ type: String }], // Array for comma-separated tags
-    short_description: { type: String, required: true },
+    tags: [{ type: String }],
+    desc: { type: String, required: true }, 
     content: { type: String, required: true },
+    date: { type: String }, 
     is_published: { type: Boolean, default: true },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-// Export all models
+// Export all models safely (prevents Next.js hot-reload overwrite errors)
 const models = {
   Admin: mongoose.models.Admin || mongoose.model("Admin", AdminSchema),
   About: mongoose.models.About || mongoose.model("About", AboutSchema),

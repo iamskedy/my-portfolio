@@ -19,11 +19,7 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+
 :root {
     --bg-color: #161616;
     --text-main: #f0f0f0;
@@ -59,7 +55,8 @@ ul { list-style: none; }
     pointer-events: none; z-index: 10000;
     transform: translate(-50%, -50%);
     transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-}
+    z-index: 999999 !important;
+  }
 .custom-cursor.hovering { width: 45px; height: 45px; background-color: rgba(255, 255, 255, 0.1); }
 [data-theme="light"] .custom-cursor.hovering { background-color: rgba(0, 0, 0, 0.05); }
 
@@ -271,4 +268,106 @@ details.proj-accordion p { padding: 0 0 20px 0; color: var(--text-muted); line-h
   --text-muted: #666666;
   --border-color: #cccccc;
   --input-bg: #ebeae3;
+}
+/* Force form elements to inherit the Montserrat font */
+input, button, textarea {
+    font-family: inherit;
+}
+
+/* --- ADMIN DASHBOARD FORM ELEMENTS --- */
+.form-group { 
+    margin-bottom: 25px; 
+}
+.form-group label { 
+    display: block; 
+    font-size: 0.7rem; 
+    letter-spacing: 2px; 
+    color: var(--text-muted); 
+    margin-bottom: 10px; 
+    text-transform: uppercase; 
+}
+.admin-input, .admin-textarea { 
+    width: 100%; 
+    padding: 15px; 
+    background-color: var(--input-bg); 
+    border: 1px solid var(--border-color); 
+    color: var(--text-main); 
+    font-family: inherit; 
+    font-size: 0.95rem; 
+    font-weight: 300; 
+    transition: border-color 0.3s; 
+    outline: none; 
+    border-radius: 0; 
+    margin-bottom: 15px;
+}
+.admin-input:focus, .admin-textarea:focus { 
+    border-color: var(--text-main); 
+}
+.admin-btn { 
+    padding: 15px 30px; 
+    background-color: transparent; 
+    color: var(--text-main); 
+    border: 1px solid var(--text-main); 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    font-size: 0.8rem; 
+    transition: all 0.3s; 
+    font-family: inherit; 
+    width: auto;
+    display: inline-block;
+    margin-top: 10px;
+}
+.admin-btn:hover { 
+    background-color: var(--text-main); 
+    color: var(--bg-color); 
+}
+.skill-pill { 
+    padding: 10px 20px; 
+    background-color: var(--input-bg); 
+    border: 1px solid var(--border-color); 
+    display: inline-flex; 
+    align-items: center; 
+    font-size: 0.85rem; 
+    border-radius: 25px; 
+    color: var(--text-main); 
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.skill-pill span { 
+    margin-left: 10px; 
+    color: #ff4d4d; 
+    font-weight: bold;
+}
+.skill-pill span:hover {
+    transform: scale(1.2);
+}
+/* --- BLOGS & TYPOGRAPHY --- */
+h1.huge-title { 
+    font-size: 6rem; 
+    font-weight: 100 !important; /* Force the thin font */
+    line-height: 1.05; 
+    letter-spacing: 2px; 
+    margin-bottom: 15px; 
+}
+
+.blogs-container { display: flex; flex-direction: column; gap: 50px; }
+.blog-card { padding: 40px; border: 1px solid var(--border-color); transition: border-color 0.3s ease, transform 0.3s ease; cursor: pointer;}
+.blog-card:hover { border-color: var(--text-muted); transform: translateY(-5px); }
+.blog-title { font-size: 1.8rem; font-weight: 300; margin-bottom: 15px; letter-spacing: 1px; transition: color 0.3s; }
+.blog-card:hover .blog-title { color: var(--text-muted); }
+.blog-desc { color: var(--text-muted); line-height: 1.8; font-size: 0.95rem; margin-bottom: 30px; max-width: 800px; }
+.blog-header-title { font-size: 3rem; font-weight: 200; letter-spacing: 1px; margin-bottom: 30px; line-height: 1.2; }
+
+/* Individual Blog Content Styling */
+.blog-body { max-width: 800px; color: var(--text-muted); line-height: 2; font-size: 1.05rem; margin-top: 60px; }
+.blog-body p { margin-bottom: 25px; }
+
+/* THIS FIXES YOUR SUBHEADINGS */
+.blog-body h3 { 
+    font-size: 1.5rem; 
+    font-weight: 300; 
+    color: var(--text-main); 
+    margin-top: 40px; 
+    margin-bottom: 20px; 
+    letter-spacing: 1px; 
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -38,7 +39,12 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#161616] text-[#f0f0f0] font-[family-name:var(--font-geist-sans)] p-5">
+    // Removed the hardcoded geist-sans font class so Montserrat takes over
+    <div className="min-h-screen flex items-center justify-center bg-[#161616] text-[#f0f0f0] p-5">
+      
+      {/* 1. Drop the custom cursor here so it works on the login screen */}
+      <CustomCursor />
+
       <div className="w-full max-w-[400px]">
         <div className="text-center mb-10">
           <h1 className="text-[2.5rem] font-extralight tracking-[2px] mb-[10px] uppercase">
@@ -66,7 +72,8 @@ export default function AdminLogin() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="shubham.dubey@gmail.com"
               required
-              className="w-full p-[15px] bg-[#1e1e1e] border border-[#333] text-[#f0f0f0] text-[0.95rem] font-light rounded-none focus:outline-none focus:border-[#f0f0f0] transition-colors duration-300"
+              // Added font-inherit here to ensure inputs use Montserrat
+              className="w-full p-[15px] bg-[#1e1e1e] border border-[#333] text-[#f0f0f0] text-[0.95rem] font-light rounded-none focus:outline-none focus:border-[#f0f0f0] transition-colors duration-300 font-inherit"
             />
           </div>
 
@@ -80,14 +87,14 @@ export default function AdminLogin() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full p-[15px] bg-[#1e1e1e] border border-[#333] text-[#f0f0f0] text-[0.95rem] font-light rounded-none focus:outline-none focus:border-[#f0f0f0] transition-colors duration-300"
+              className="w-full p-[15px] bg-[#1e1e1e] border border-[#333] text-[#f0f0f0] text-[0.95rem] font-light rounded-none focus:outline-none focus:border-[#f0f0f0] transition-colors duration-300 font-inherit"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full p-[15px_30px] bg-[#f0f0f0] text-[#161616] border border-[#f0f0f0] uppercase tracking-[2px] text-[0.8rem] font-medium transition-all duration-300 hover:bg-transparent hover:text-[#f0f0f0] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full p-[15px_30px] bg-[#f0f0f0] text-[#161616] border border-[#f0f0f0] uppercase tracking-[2px] text-[0.8rem] font-medium transition-all duration-300 hover:bg-transparent hover:text-[#f0f0f0] disabled:opacity-50 disabled:cursor-not-allowed font-inherit"
           >
             {loading ? "Authenticating..." : "Login to Dashboard"}
           </button>

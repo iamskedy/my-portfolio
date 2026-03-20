@@ -1,125 +1,77 @@
 "use client";
 import { useState, useEffect } from "react";
 
-export default function AdminAbout() {
-  const [formData, setFormData] = useState({
-    sub_title: "",
-    email: "",
-    about_me: "",
-    motivation: "",
+export default function AboutModule() {
+  // State matches your data.json "hero" object structure
+  const [formData, setFormData] = useState({ 
+    subtitle: "", 
+    email: "", 
+    about: "", 
+    motivation: "" 
   });
   const [status, setStatus] = useState("Save Changes");
 
-  // Load existing data from MongoDB on mount
   useEffect(() => {
-    async function loadData() {
-      try {
-        const res = await fetch("/api/portfolio?section=about");
-        const json = await res.json();
-        if (json.success && json.data) {
-          setFormData(json.data);
-        }
-      } catch (err) {
-        console.error("Failed to load about data");
-      }
-    }
-    loadData();
+    fetch("/api/portfolio?section=about")
+      .then(res => res.json())
+      .then(json => {
+        if (json.data) setFormData(json.data);
+      });
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     setStatus("Saving...");
+    
+    // We split motivation by newlines to match the array structure in data.json
+    const payload = {
+        ...formData,
+        motivation: formData.motivation.split('\n').filter(m => m.trim() !== '')
+    };
 
-    try {
-      const res = await fetch("/api/portfolio", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ section: "about", data: formData }),
-      });
+    const res = await fetch("/api/portfolio", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ section: "about", data: payload }),
+    });
 
-      if (res.ok) {
-        setStatus("Success!");
-        setTimeout(() => setStatus("Save Changes"), 2000);
-      } else {
-        setStatus("Error Saving");
-      }
-    } catch (err) {
-      setStatus("Error");
+    if (res.ok) {
+      setStatus("About Section Updated!");
+      setTimeout(() => setStatus("Save Changes"), 2000);
     }
   };
 
   return (
     <div className="animate-in fade-in duration-500">
-      <h2 className="text-[1.05rem] font-light tracking-[1px] uppercase border-b border-[var(--border-color)] pb-[15px] mb-[40px]">
-        Edit About Section
-      </h2>
-
-      <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex flex-col">
-            <label className="text-[0.7rem] uppercase tracking-widest text-[var(--text-muted)] mb-2">
-              Role / Sub-title
-            </label>
-            <input
-              className="bg-[var(--input-bg)] border border-[var(--border-color)] p-4 text-[var(--text-main)] outline-none focus:border-[var(--text-main)] transition-all"
-              value={formData.sub_title}
-              onChange={(e) =>
-                setFormData({ ...formData, sub_title: e.target.value })
-              }
-              placeholder="Backend Software Developer"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-[0.7rem] uppercase tracking-widest text-[var(--text-muted)] mb-2">
-              Public Email
-            </label>
-            <input
-              className="bg-[var(--input-bg)] border border-[var(--border-color)] p-4 text-[var(--text-main)] outline-none focus:border-[var(--text-main)] transition-all"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-              placeholder="shubham@example.com"
-            />
-          </div>
+      <div className="section-header"><span>Update About Section</span></div>
+      
+      <form onSubmit={handleSave}>
+        {/* Notice how we use the exact HTML classes here now! */}
+        <div className="form-group">
+          <label>Sub-title (Hero)</label>
+          <input type="text" className="admin-input" value={formData.subtitle} 
+                 onChange={e => setFormData({...formData, subtitle: e.target.value})} />
         </div>
-
-        <div className="flex flex-col">
-          <label className="text-[0.7rem] uppercase tracking-widest text-[var(--text-muted)] mb-2">
-            About Me Description
-          </label>
-          <textarea
-            rows="5"
-            className="bg-[var(--input-bg)] border border-[var(--border-color)] p-4 text-[var(--text-main)] outline-none focus:border-[var(--text-main)] transition-all resize-none"
-            value={formData.about_me}
-            onChange={(e) =>
-              setFormData({ ...formData, about_me: e.target.value })
-            }
-          />
+        
+        <div className="form-group">
+          <label>Contact Email</label>
+          <input type="email" className="admin-input" value={formData.email}
+                 onChange={e => setFormData({...formData, email: e.target.value})} />
         </div>
-
-        <div className="flex flex-col">
-          <label className="text-[0.7rem] uppercase tracking-widest text-[var(--text-muted)] mb-2">
-            Work Philosophy
-          </label>
-          <textarea
-            rows="3"
-            className="bg-[var(--input-bg)] border border-[var(--border-color)] p-4 text-[var(--text-main)] outline-none focus:border-[var(--text-main)] transition-all resize-none"
-            value={formData.motivation}
-            onChange={(e) =>
-              setFormData({ ...formData, motivation: e.target.value })
-            }
-          />
+        
+        <div className="form-group">
+          <label>About Me Content</label>
+          <textarea className="admin-textarea" rows="5" value={formData.about}
+                    onChange={e => setFormData({...formData, about: e.target.value})} />
         </div>
-
-        <button
-          type="submit"
-          className={`px-10 py-4 text-[0.8rem] uppercase tracking-widest transition-all ${
-            status === "Success!"
-              ? "bg-green-600 border-green-600 text-white"
-              : "bg-transparent border border-[var(--text-main)] hover:bg-[var(--text-main)] hover:text-[var(--bg-color)]"
-          }`}
-        >
+        
+        <div className="form-group">
+          <label>Motivation Content (Separate paragraphs with a new line)</label>
+          <textarea className="admin-textarea" rows="4" value={typeof formData.motivation === 'string' ? formData.motivation : formData.motivation.join('\n')}
+                    onChange={e => setFormData({...formData, motivation: e.target.value})} />
+        </div>
+        
+        <button type="submit" className="admin-btn" style={{ background: status.includes('Updated') ? '#4CAF50' : '', borderColor: status.includes('Updated') ? '#4CAF50' : '' }}>
           {status}
         </button>
       </form>

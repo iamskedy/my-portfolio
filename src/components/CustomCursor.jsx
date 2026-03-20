@@ -2,27 +2,26 @@
 import { useEffect, useState } from 'react';
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: -100, y: -100 }); // Start off-screen
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    const updateCursor = (e) => setPosition({ x: e.clientX, y: e.clientY });
-    
-    const handleMouseOver = (e) => {
-      // Add hover effect if hovering over links, buttons, or custom interactive elements
-      if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.pill') || e.target.closest('.project-img-wrapper') || e.target.closest('label')) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
+    const updateCursor = (e) => {
+      // 1. Move the cursor
+      setPosition({ x: e.clientX, y: e.clientY });
+      
+      // 2. Check exactly what element the mouse is currently touching
+      const target = e.target;
+      const isInteractive = target.closest('a, button, .pill, .project-img-wrapper, label, input, .view-btn, .theme-switch');
+      
+      setIsHovering(!!isInteractive);
     };
 
+    // Use mousemove for everything to prevent glitching
     document.addEventListener('mousemove', updateCursor);
-    document.addEventListener('mouseover', handleMouseOver);
 
     return () => {
       document.removeEventListener('mousemove', updateCursor);
-      document.removeEventListener('mouseover', handleMouseOver);
     };
   }, []);
 
