@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { connectToDatabase } from "@/models/db";
 import models from "@/models/schemas";
 
-export const revalidate = 60;
+export const revalidate = 0;
 
 export default async function BlogPost({ params }) {
   await connectToDatabase();

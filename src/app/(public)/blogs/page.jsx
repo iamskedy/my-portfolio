@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { connectToDatabase } from "@/models/db";
 import models from "@/models/schemas";
 
-export const revalidate = 60; 
+export const revalidate = 0; 
 
 export default async function BlogsPage() {
   await connectToDatabase();
