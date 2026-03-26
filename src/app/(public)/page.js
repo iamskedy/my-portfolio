@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { connectToDatabase } from "@/models/db";
 import models from "@/models/schemas";
+import ProjectTabs from "@/components/ProjectTabs"; // <-- Import the new component
 
 // Force Next.js to fetch the latest data on every request (No Caching)
 export const revalidate = 0;
@@ -26,6 +27,13 @@ export default async function Home() {
     return acc;
   }, []);
 
+  // Serialize Mongoose ObjectIds and ensure category fallback
+  const serializedProjects = projects.map((p) => ({
+    ...p,
+    _id: p._id.toString(),
+    category: p.category || "Full Stack" // Fallback in case old DB entries don't have a category
+  }));
+
   if (!hero) {
     return <div className="p-10">Loading or please seed database...</div>;
   }
@@ -36,7 +44,6 @@ export default async function Home() {
       <section className="hero-section">
         <div className="hero-left-col">
           <div>
-            {/* Hardcoded name as it's not in the About schema */}
             <h1 className="huge-title">SHUBHAM DUBEY</h1>
             <h2 className="subtitle">{hero.subtitle}</h2>
           </div>
@@ -108,26 +115,10 @@ export default async function Home() {
             /projects
           </span>
         </div>
-        <div>
-          {projects.map((proj) => (
-            <div className="work-item" key={proj._id}>
-              <div className="work-grid">
-                <Link
-                  href={`/works/${proj._id}`}
-                  className="project-img-wrapper">
-                  <div className="view-btn">VIEW</div>
-                  <img src={proj.thumbnail} alt={proj.title} />
-                </Link>
-                <div className="work-info">
-                  <div className="index">{proj.index}</div>
-                  <h3>{proj.title}</h3>
-                  <h4>{proj.subtitle}</h4>
-                  <p dangerouslySetInnerHTML={{ __html: proj.overview }}></p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        
+        {/* Pass the serialized projects down to the client component */}
+        <ProjectTabs projects={serializedProjects} />
+        
       </section>
     </div>
   );

@@ -1,8 +1,22 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/models/db";
 import models from "@/models/schemas";
+import { cookies } from "next/headers";
 
-// --- READ (GET) ---
+// --- SECURITY HELPER: Verify Admin Session ---
+async function verifyAdmin() {
+  const cookieStore = await cookies();
+  const adminSession = cookieStore.get("admin_session");
+  
+  if (!adminSession) return false;
+
+  // Double-check the ID actually exists in the database
+  await connectToDatabase();
+  const adminExists = await models.Admin.findById(adminSession.value);
+  return !!adminExists;
+}
+
+// --- READ (GET) - Kept Public for the Frontend ---
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const section = searchParams.get("section");
@@ -22,14 +36,16 @@ export async function GET(req) {
   }
 }
 
-// --- CREATE (POST) ---
+// --- CREATE (POST) - SECURED ---
 export async function POST(req) {
+  const isAuth = await verifyAdmin();
+  if (!isAuth) return NextResponse.json({ error: "Unauthorized. Admin access required." }, { status: 401 });
+
   const body = await req.json();
   const { section, data } = body;
   await connectToDatabase();
 
   try {
-    // The About section is a singleton, so POST acts like an upsert
     if (section === "about") {
       await models.About.findOneAndUpdate({}, data, { upsert: true, new: true });
     } else if (section === "skills") {
@@ -45,8 +61,11 @@ export async function POST(req) {
   }
 }
 
-// --- UPDATE (PUT) ---
+// --- UPDATE (PUT) - SECURED ---
 export async function PUT(req) {
+  const isAuth = await verifyAdmin();
+  if (!isAuth) return NextResponse.json({ error: "Unauthorized. Admin access required." }, { status: 401 });
+
   const body = await req.json();
   const { section, id, data } = body;
   await connectToDatabase();
@@ -62,8 +81,11 @@ export async function PUT(req) {
   }
 }
 
-// --- DELETE (DELETE) ---
+// --- DELETE (DELETE) - SECURED ---
 export async function DELETE(req) {
+  const isAuth = await verifyAdmin();
+  if (!isAuth) return NextResponse.json({ error: "Unauthorized. Admin access required." }, { status: 401 });
+
   const { searchParams } = new URL(req.url);
   const section = searchParams.get("section");
   const id = searchParams.get("id");

@@ -371,3 +371,22 @@ h1.huge-title {
     margin-bottom: 20px; 
     letter-spacing: 1px; 
 }
+
+/* --- Project Tabs --- */
+.project-tabs {
+    display: flex; gap: 15px; margin-bottom: 50px; flex-wrap: wrap;
+}
+.tab-btn {
+    background: transparent; border: 1px solid var(--border-color);
+    color: var(--text-muted); padding: 8px 24px; border-radius: 25px;
+    font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;
+    transition: all 0.3s ease; outline: none;
+}
+.tab-btn:hover, .tab-btn.active {
+    border-color: var(--text-main); color: var(--text-main);
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}

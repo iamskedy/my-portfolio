@@ -32,16 +32,17 @@ const SkillSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// Project Schema - Updated to match data.json and Admin UI
+
 const ProjectSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     subtitle: { type: String, required: true },
-    tools: [{ type: String }], // Renamed from tools_used
-    thumbnail: { type: String }, // Renamed from thumbnail_url
-    overview: { type: String, required: true }, // Renamed from summary
-    content: { type: String }, // Added to support full project details
-    index: { type: String }, // Added to support project numbering (01, 02)
+    category: { type: String, required: true, default: "Full Stack" }, // <-- ADD THIS LINE
+    tools: [{ type: String }], 
+    thumbnail: { type: String }, 
+    overview: { type: String, required: true }, 
+    content: { type: String }, 
+    index: { type: String }, 
   },
   { timestamps: true },
 );
